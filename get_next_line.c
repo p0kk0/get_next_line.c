@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/08/30 19:28:09 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:24:17 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,63 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
+char	*ft_strchr(const char *str, int c)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == (char)c)
+			return ((char *) &str[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_line(char	*str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n' || str[i] == '\0')
+		{
+			printf("Procesamos la línea.");
+			return (str);
+		}
+		i++;
+	}
+	return (str);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	char		*temp_buffer;
+	char		*line;
 	ssize_t		read_bytes;
 
-	buffer = NULL;
-	read_bytes = 1; //Decimos que es 1, para que entre dentro del bucle.
+	read_bytes = 1;
 	if (BUFFER_SIZE < 0 || fd < 0)
 		return (0);
-	while (read_bytes > 0) //Cuando los bytes leídos sean 0, habremos acabado.
+	buffer = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!buffer)
+		return (NULL);
+	while (read_bytes > 0 )//&& ft_strchr(temp_buffer, '\n'))
 	{
-		temp_buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		temp_buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!temp_buffer)
-			return (0);
+			return (NULL);
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
 		buffer = ft_strjoin(buffer, temp_buffer);
-		printf("Bytes read: %zd\n", read_bytes);
+		get_line(buffer);
+		free(temp_buffer);
+		printf("|	|	|El temp_buffer contiene: %s\n", temp_buffer);
 		printf("El buffer contiene: %s\n", buffer);
-		printf("El temp_buffer contiene: %s\n", temp_buffer);
 	}
-	printf("El buffer contiene: %s\n", buffer);
-	return (temp_buffer);
+	return (0);
 }
 
 int	main(void)
@@ -81,6 +115,7 @@ int	main(void)
 
 	fd = open("fichero.txt", O_RDONLY);
 	line = get_next_line(fd);
-	printf("The line is:%s\n", line);
+	//printf("The line is:%s\n", line);
+	close(fd);
 	return (0);
 }
