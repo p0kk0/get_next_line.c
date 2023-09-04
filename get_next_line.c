@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/04 17:47:59 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:09:12 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	*ft_strchr(char *buffer, char a)
 	{
 		if (buffer[i] == a)
 		{
+			buffer[i + 1] = '\0';
 			return (&buffer[i]);
 		}
 		i++;
@@ -87,10 +88,24 @@ char	*ft_reading(char *buffer, int fd)
 	return (buffer);
 }
 
+char	*ft_get_line(char *buffer)
+{
+	char	*line;
+	int		counter;
+
+	counter = 0;
+	while (buffer[counter])
+	{
+		line[counter] = buffer [counter];
+		counter++;
+	}
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	//char		*line;
+	char		*line;
 
 	buffer = malloc (sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
@@ -98,10 +113,10 @@ char	*get_next_line(int fd)
 	if (BUFFER_SIZE < 0 || fd < 0)
 		return (0);
 	buffer = ft_reading(buffer, fd);
-	//line = ft_get_line(buffer);
+	line = ft_get_line(buffer);
 	//buffer = ft_static_update(buffer);
 	//return (line);
-	return (buffer);
+	return (line);
 }
 
 int	main(void)
