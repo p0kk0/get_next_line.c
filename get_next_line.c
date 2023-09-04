@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/08/31 20:24:17 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:47:59 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_join(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -49,73 +49,69 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char	*ft_strchr(const char *str, int c)
+static char	*ft_strchr(char *buffer, char a)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while (str[i])
+	while (buffer[i])
 	{
-		if (str[i] == (char)c)
-			return ((char *) &str[i]);
+		if (buffer[i] == a)
+		{
+			return (&buffer[i]);
+		}
 		i++;
 	}
 	return (NULL);
 }
 
-char	*get_line(char	*str)
+char	*ft_reading(char *buffer, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n' || str[i] == '\0')
-		{
-			printf("Procesamos la línea.");
-			return (str);
-		}
-		i++;
-	}
-	return (str);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*buffer;
-	char		*temp_buffer;
-	char		*line;
-	ssize_t		read_bytes;
+	char	*temp_buffer;
+	ssize_t	read_bytes;
 
 	read_bytes = 1;
-	if (BUFFER_SIZE < 0 || fd < 0)
-		return (0);
-	buffer = malloc(sizeof(char) * BUFFER_SIZE);
-	if (!buffer)
-		return (NULL);
-	while (read_bytes > 0 )//&& ft_strchr(temp_buffer, '\n'))
+	while (read_bytes > 0)
 	{
 		temp_buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!temp_buffer)
 			return (NULL);
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
-		buffer = ft_strjoin(buffer, temp_buffer);
-		get_line(buffer);
+		buffer = ft_join(buffer, temp_buffer);
+		if (ft_strchr(buffer, '\n'))
+			break ;
+		printf("%s\n", buffer);
 		free(temp_buffer);
-		printf("|	|	|El temp_buffer contiene: %s\n", temp_buffer);
-		printf("El buffer contiene: %s\n", buffer);
 	}
-	return (0);
+	//printf("%s\n", buffer);
+	return (buffer);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	//char		*line;
+
+	buffer = malloc (sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	if (BUFFER_SIZE < 0 || fd < 0)
+		return (0);
+	buffer = ft_reading(buffer, fd);
+	//line = ft_get_line(buffer);
+	//buffer = ft_static_update(buffer);
+	//return (line);
+	return (buffer);
 }
 
 int	main(void)
 {
-	char	*line;
-	int		fd;
+	char		*line;
+	ssize_t		fd;
 
 	fd = open("fichero.txt", O_RDONLY);
 	line = get_next_line(fd);
-	//printf("The line is:%s\n", line);
+	printf("The line is:%s\n", line);
 	close(fd);
 	return (0);
 }
