@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 19:12:03 by felsanch          #+#    #+#             */
-/*   Updated: 2023/08/30 17:03:23 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:14:26 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFER_SIZE
-# define BUFFER_SIZE 3
+# define BUFFER_SIZE 15
 # endif
 
 # include <stdio.h>
@@ -22,14 +22,10 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-//GET_NEXT_LINE: Return a line from a FD. If the function is called again, returns next line.
-/**
- * @brief Get the next line object
- * 
- * @param fd File descriptor given to apply the function. 
- * @return char* a pointer to the buffer where the string (line) is alocated.
- */
-char	*get_next_line(int fd);
-char	*ft_strchr(char const *temp_buffer, int c);
-
+char		*get_next_line(int fd);
+char		*ft_reading(char *buffer, int fd);
+int			ft_strlen(char *str);
+char		*ft_join(char *s1, char *s2);
+static char	*ft_strchr(char *buffer, char a);
+static char	*ft_substr(char *buffer, char start);
 #endif

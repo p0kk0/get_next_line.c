@@ -6,47 +6,29 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/04 18:09:12 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:59:53 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+char	*ft_substr(char *buffer, char start)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_join(char *s1, char *s2)
-{
-	char	*str;
 	int		i;
-	int		j;
+	char	*new_buffer;
 
 	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
+	if (!buffer)
 		return (NULL);
-	while (s1[i])
+	while (buffer[i] != start)
+		i++;
+	i++;
+	while (buffer[i] < BUFFER_SIZE)
 	{
-		str[i] = s1[i];
+		new_buffer[i] = buffer[i];
 		i++;
 	}
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
+	return (new_buffer);
 }
 
 static char	*ft_strchr(char *buffer, char a)
@@ -54,11 +36,12 @@ static char	*ft_strchr(char *buffer, char a)
 	int	i;
 
 	i = 0;
+	//printf("El buffer es: %s\n", buffer);
 	while (buffer[i])
 	{
 		if (buffer[i] == a)
 		{
-			buffer[i + 1] = '\0';
+			buffer[i] = '\n';
 			return (&buffer[i]);
 		}
 		i++;
@@ -78,13 +61,15 @@ char	*ft_reading(char *buffer, int fd)
 		if (!temp_buffer)
 			return (NULL);
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
+		//printf("|	|El buffer es: %s\n", buffer);
+		//printf("El temp_buffer es: %s\n", temp_buffer);
 		buffer = ft_join(buffer, temp_buffer);
+		//printf("El temp_buffer es: %s\n", temp_buffer);
+		//printf("El buffer es: %s\n", buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
-		printf("%s\n", buffer);
 		free(temp_buffer);
 	}
-	//printf("%s\n", buffer);
 	return (buffer);
 }
 
@@ -93,15 +78,32 @@ char	*ft_get_line(char *buffer)
 	char	*line;
 	int		counter;
 
+	line = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	counter = 0;
-	while (buffer[counter])
+	//printf("%s\n", buffer);
+	while (buffer[counter] != '\n')
 	{
-		line[counter] = buffer [counter];
+		line[counter] = buffer[counter];
+		//printf("Line[counter] = %c\n", line[counter]);
 		counter++;
+		//printf("Line[counter] = %c\n", line[counter]);
 	}
+	line[counter] = '\0';
+	//printf("El counter es: %d\n", counter);
+	//printf("La linea es: %s\n", line);
 	return (line);
 }
 
+/*
+char	*ft_static_update(char *buffer)
+{
+	char	*new_buffer;
+	new_buffer = ft_substr(buffer, '\n');
+	//printf("El nuevo buffer es %s\n", new_buffer);
+	free(buffer);
+	return (new_buffer);
+}
+*/
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -113,9 +115,10 @@ char	*get_next_line(int fd)
 	if (BUFFER_SIZE < 0 || fd < 0)
 		return (0);
 	buffer = ft_reading(buffer, fd);
+	//printf("El buffer es: %s\n", buffer);
 	line = ft_get_line(buffer);
+	//printf("%s", line);
 	//buffer = ft_static_update(buffer);
-	//return (line);
 	return (line);
 }
 
@@ -126,7 +129,7 @@ int	main(void)
 
 	fd = open("fichero.txt", O_RDONLY);
 	line = get_next_line(fd);
-	printf("The line is:%s\n", line);
+	printf("The line is: %s", line);
 	close(fd);
 	return (0);
 }
