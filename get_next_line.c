@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/06 17:18:43 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:36:36 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,13 @@ char	*ft_substr(char *buffer, char start)
 	return (new_buffer);
 }
 
-static char	*ft_strchr(char *buffer, char a)
+char	*ft_newjoin(char *buffer, char *temp_buffer)
 {
-	int	i;
+	char	*retornado;
 
-	i = 0;
-	while (buffer[i])
-	{
-		if (buffer[i] == a)
-		{
-			buffer[i] = '\n';
-			return (&buffer[i]);
-		}
-		i++;
-	}
-	return (NULL);
+	retornado = ft_join(buffer, temp_buffer);
+	free(buffer);
+	return (retornado);
 }
 
 char	*ft_reading(char *buffer, int fd)
@@ -60,10 +52,10 @@ char	*ft_reading(char *buffer, int fd)
 		if (!temp_buffer)
 			return (NULL);
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
-		buffer = ft_join(buffer, temp_buffer);
+		buffer = ft_newjoin(buffer, temp_buffer);
+		free(temp_buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
-		free(temp_buffer);
 	}
 	return (buffer);
 }
@@ -71,14 +63,23 @@ char	*ft_reading(char *buffer, int fd)
 char	*ft_get_line(char *buffer)
 {
 	char	*line;
+	char	*aux;
 	int		counter;
 
-	line = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	counter = 0;
-	while (buffer[counter] != '\n')
+	aux = ft_strchr(buffer, '\n');
+	if (aux == NULL)
+		aux = buffer - 1;
+	line = malloc(sizeof(char) * (aux - buffer + 2)); //PROTEGER
+	while (buffer[counter] != '\n' && buffer[counter])
 	{
 		line[counter] = buffer[counter];
 		counter++;
+	}
+	if (aux != buffer - 1)
+	{
+		line[counter] = '\n';
+		counter += 1;
 	}
 	line[counter] = '\0';
 	return (line);
@@ -94,7 +95,7 @@ char	*ft_static_update(char *buffer)
 	bff_counter = 0;
 	new_bff_counter = 0;
 	tam = ft_strlen(buffer);
-	while (buffer[bff_counter] != '\n')
+	while (buffer[bff_counter] != '\n' && buffer[bff_counter])
 		bff_counter++;
 	bff_counter++;
 	new_buffer = malloc(sizeof(char) * (tam - bff_counter + 1));
@@ -106,7 +107,6 @@ char	*ft_static_update(char *buffer)
 		bff_counter++;
 		new_bff_counter++;
 	}
-	//printf("El new_buffer es: %s\n", new_buffer);
 	return (new_buffer);
 }
 
@@ -115,32 +115,29 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	buffer = malloc (sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		buffer = malloc (sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	printf("El buffer, al principio es: %s\n", buffer);
 	if (BUFFER_SIZE < 0 || fd < 0)
 		return (0);
 	buffer = ft_reading(buffer, fd);
 	line = ft_get_line(buffer);
 	buffer = ft_static_update(buffer);
-	printf("El buffer es: %s\n", buffer);
 	return (line);
 }
 
 int	main(void)
 {
-	int			counter;
 	char		*line;
 	ssize_t		fd;
 
-	counter = 2;
 	fd = open("fichero.txt", O_RDONLY);
-	while (counter > 0)
-	{
 	line = get_next_line(fd);
-	printf ("La linea es: %s\n", line);
-	counter--;
+	while (line[0])
+	{
+		printf ("La linea es: %s", line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);

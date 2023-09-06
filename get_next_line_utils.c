@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:27:07 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/05 17:10:46 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:31:35 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,21 @@ char	*ft_join(char *s1, char *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
+}
+
+char	*ft_strchr(char *buffer, char a)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i])
+	{
+		if (buffer[i] == a)
+		{
+			buffer[i] = '\n';
+			return (&buffer[i]);
+		}
+		i++;
+	}
+	return (NULL);
 }
