@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 19:12:03 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/05 18:14:26 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:55:25 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFER_SIZE
-# define BUFFER_SIZE 15
+# define BUFFER_SIZE 12
 # endif
 
 # include <stdio.h>
