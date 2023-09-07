@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 19:12:03 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/06 20:32:11 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:54:56 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 13
 # endif
 
 # include <stdio.h>
@@ -23,9 +23,8 @@
 # include <fcntl.h>
 
 char		*get_next_line(int fd);
-char		*ft_reading(char *buffer, int fd);
-int			ft_strlen(char *str);
 char		*ft_join(char *s1, char *s2);
+int			ft_strlen(char *str);
 char		*ft_strchr(char *buffer, char a);
-static char	*ft_substr(char *buffer, char start);
+char		*ft_substr(char *s1, char *s2);
 #endif
