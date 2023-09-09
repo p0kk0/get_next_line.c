@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:27:07 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/07 22:56:44 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:18:01 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,22 @@ char	*ft_strchr(char *buffer, char a)
 	return (NULL);
 }
 
-// char	*ft_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	char	*a;
+char	*ft_buffer_update(char	*buffer, char *new_buffer)
+{
+	int		buff_counter;
+	int		newbuff_counter;
 
-// 	if (!s)
-// 		return (NULL);
-// 	if (ft_strlen(s) <= start)
-// 		return (ft_strdup(""));
-// 	if (ft_strlen(s) - start < len)
-// 		len = ft_strlen(s) - start;
-// 	a = malloc(len + 1);
-// 	if (!a)
-// 		return (NULL);
-// 	ft_memcpy(a, s + start, len);
-// 	a[len] = '\0';
-// 	return (a);
-// }
+	buff_counter = 0;
+	newbuff_counter = 0;
+	while (buffer[buff_counter] != '\n')
+		buff_counter++;
+	buff_counter++;
+	while (buffer[buff_counter])
+	{
+		new_buffer[newbuff_counter] = buffer[buff_counter];
+		buff_counter++;
+		newbuff_counter++;
+	}
+	new_buffer[newbuff_counter] = '\0';
+	return (new_buffer);
+}
