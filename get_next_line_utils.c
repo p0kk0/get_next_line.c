@@ -6,13 +6,13 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:27:07 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/08 17:18:01 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:06:01 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_join(char *s1, char *s2)
+char	*ft_join(char *buffer, char *temp_bff)
 {
 	char	*str;
 	int		i;
@@ -20,18 +20,21 @@ char	*ft_join(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(buffer) + ft_strlen(temp_bff) + 1));
 	if (!str)
 		return (NULL);
-	while (s1[i])
+	//if (buffer)
+	//{
+		while (buffer[i])
+		{
+			str[i] = buffer[i];
+			i++;
+		}
+		free(buffer);
+	//}
+	while (temp_bff[j])
 	{
-		str[i] = s1[i];
-		i++;
-	}
-	free(s1);
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
+		str[i + j] = temp_bff[j];
 		j++;
 	}
 	str[i + j] = '\0';
@@ -66,22 +69,16 @@ char	*ft_strchr(char *buffer, char a)
 	return (NULL);
 }
 
-char	*ft_buffer_update(char	*buffer, char *new_buffer)
+char	*ft_buffer_update(char *buffer, char *new_buffer)
 {
-	int		buff_counter;
-	int		newbuff_counter;
+	int	i;
 
-	buff_counter = 0;
-	newbuff_counter = 0;
-	while (buffer[buff_counter] != '\n')
-		buff_counter++;
-	buff_counter++;
-	while (buffer[buff_counter])
+	i = 0;
+	while (buffer[i])
 	{
-		new_buffer[newbuff_counter] = buffer[buff_counter];
-		buff_counter++;
-		newbuff_counter++;
+		new_buffer[i] = buffer[i];
+		i++;
 	}
-	new_buffer[newbuff_counter] = '\0';
+	new_buffer[i] = '\0';
 	return (new_buffer);
 }

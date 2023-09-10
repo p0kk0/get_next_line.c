@@ -6,15 +6,15 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 19:12:03 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/08 17:10:25 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/10 17:01:57 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # ifndef BUFER_SIZE
-# define BUFFER_SIZE 10
+#  define BUFFER_SIZE 10
 # endif
 
 # include <stdio.h>
