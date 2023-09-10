@@ -6,13 +6,13 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:27:07 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/10 18:06:01 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/10 23:12:51 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_join(char *buffer, char *temp_bff)
+char	*ft_join(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -20,21 +20,18 @@ char	*ft_join(char *buffer, char *temp_bff)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(buffer) + ft_strlen(temp_bff) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
-	//if (buffer)
-	//{
-		while (buffer[i])
-		{
-			str[i] = buffer[i];
-			i++;
-		}
-		free(buffer);
-	//}
-	while (temp_bff[j])
+	while (s1[i])
 	{
-		str[i + j] = temp_bff[j];
+		str[i] = s1[i];
+		i++;
+	}
+	free(s1);
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
 		j++;
 	}
 	str[i + j] = '\0';
@@ -51,34 +48,33 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strchr(char *buffer, char a)
+char	*ft_strchr(char *str, char a)
 {
 	int	i;
 
 	i = 0;
-	while (buffer[i])
+	while (str[i])
 	{
-		if (buffer[i] == a)
+		if (str[i] == a)
 		{
-			return (&buffer[i]);
+			return (&str[i]);
 		}
 		i++;
 	}
 	if (a == '\0')
-		return (&buffer[i]);
+		return (&str[i]);
 	return (NULL);
 }
 
-char	*ft_buffer_update(char *buffer, char *new_buffer)
+void	ft_buffer_update(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
-	while (buffer[i])
+	while (s1[i])
 	{
-		new_buffer[i] = buffer[i];
+		s2[i] = s1[i];
 		i++;
 	}
-	new_buffer[i] = '\0';
-	return (new_buffer);
+	s2[i] = '\0';
 }
