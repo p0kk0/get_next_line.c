@@ -85,7 +85,7 @@ char	*ft_static_update(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
+	static char	*buffer;
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
