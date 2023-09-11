@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:27:07 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/10 23:12:51 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:20:57 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,21 @@ void	ft_buffer_update(char *s1, char *s2)
 		i++;
 	}
 	s2[i] = '\0';
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*str;
+	size_t	i;
+
+	i = 0;
+	str = malloc(count * size);
+	if (!str)
+		return (NULL);
+	while (i < (size * count))
+	{
+		((char *)str)[i] = '\0';
+		i++;
+	}
+	return (str);
 }

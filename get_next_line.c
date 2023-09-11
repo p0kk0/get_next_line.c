@@ -6,7 +6,7 @@
 /*   By: felsanch <felsanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:29:24 by felsanch          #+#    #+#             */
-/*   Updated: 2023/09/10 23:12:16 by felsanch         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:20:12 by felsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	if (!buffer)
-		buffer = calloc (sizeof(char), (BUFFER_SIZE + 1));
+		buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	if (!ft_strchr(buffer, '\n'))
@@ -111,7 +111,6 @@ char	*get_next_line(int fd)
 // 	ssize_t		fd;
 
 // 	fd = open("fichero.txt", O_RDONLY);
-// 	//fd = 5;
 // 	line = get_next_line(fd);
 // 	while (line)
 // 	{
@@ -119,8 +118,8 @@ char	*get_next_line(int fd)
 // 		line = get_next_line(fd);
 // 		free(line);
 // 	}
-// 	// line = get_next_line(fd);
-// 	// printf ("La linea es: %s", line);
+// 	line = get_next_line(fd);
+// 	printf ("\nLa linea es: %s", line);
 // 	close(fd);
 // 	return (0);
 // }
